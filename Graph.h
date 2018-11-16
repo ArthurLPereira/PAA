@@ -340,3 +340,5 @@ void Graph::printCoor() {
 		cout << i << " " << coor[i][0] << " " << coor[i][1] << endl;
 	}
 }
+
+
