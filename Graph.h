@@ -29,6 +29,7 @@ public:
 	bool isConnected(int x, int y);	// Check if two vertices are connected
 	vector<int> bruteForce(); //determina o menor caminho Hamiltoniano do grafo utilizando o paradigma de for�a bruta (chama a fun��o recursiva)
 	vector<int> branchBound(); //determina o menor caminho Hamiltoniano do grafo utilizando o paradigma de branch and bound (chama a fun��o recursiva)
+	vector<int> dynamic(); //determina o menor caminho Hamiltoniano do grado utilizando programação dinamica
 	void printAdj(); //imprime a matriz de adjacencia
 	void printCoor(); //imprime matriz de coordenadas
 
@@ -245,6 +246,57 @@ vector<int> Graph::branchBoundR(int a, double res, double bestR, vector<int>cida
 	}
 
 	return bestC;
+}
+
+vector<int> Graph::dynamic() {
+	long nsub = 1 << n;
+	vector<vector<float>> opt(nsub, vector<float>(n));
+
+	for (long s = 1; s < nsub; s += 2)
+		for (int i = 1; i < n; ++i) {
+			vector<int> subset;
+			for (int u = 0; u < n; ++u)
+				if (s & (1 << u))
+					subset.push_back(u);
+
+			if (subset.size() == 2)
+				opt[s][i] = adj[0][i];
+
+			else if (subset.size() > 2) {
+				float min_subpath = INFINITE;
+				long t = s & ~(1 << i);
+				for (vector<int>::iterator j = subset.begin(); j != subset.end(); ++j)
+					if (*j != i && opt[t][*j] + adj[*j][i] < min_subpath)
+					min_subpath = opt[t][*j] + adj[*j][i];
+				opt[s][i] = min_subpath;
+			}
+		}
+
+	vector<int> tour;
+	tour.push_back(0);
+
+	bool selected[n];
+	fill(selected, selected + n, false);
+	selected[0] = true;
+
+	long s = nsub - 1;
+
+	for (int i = 0; i < n - 1; ++i) {
+		int j = tour.back();
+		float min_subpath = INFINITE;
+		int best_k;
+		for (int k = 0; k < n; ++k)
+			if (!selected[k] && opt[s][k] + adj[k][j] < min_subpath) {
+				min_subpath = opt[s][k] + adj[k][j];
+				best_k = k;
+			}
+		tour.push_back(best_k);
+		selected[best_k] = true;
+		s -= 1 << best_k;
+	}
+	tour.push_back(0);
+
+	return tour;
 }
 
 /*

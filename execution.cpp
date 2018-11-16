@@ -51,7 +51,7 @@ Graph construirGrafo(int n) {
 }
 
 
-int main() {
+int brute_force() {
 	
 	for(int n = 4; n < 15; n++) {
 		file.open("bruteforce/N"+to_string(n)+".txt");
@@ -73,8 +73,69 @@ int main() {
 			file << graph.timeT << endl;
 
 		}
-	}
+        file.close();
 
-    file.close()
-	//cout << "Tempo BF: " << graph.timeT << endl;
+	}
+}
+
+int branch_bound() {
+	
+	for(int n = 4; n < 15; n++) {
+		file.open("branchbound/N"+to_string(n)+".txt");
+		for(int j = 0; j < 15; j++){
+			Graph graph = construirGrafo(n);
+			vector<int> resposta;
+			double caminhoTotal = 0;
+
+			resposta = graph.branchBound();
+			//string caminho = "";
+
+			// for (int i = 0; i < resposta.size(); i++) {
+				
+			// 	caminhoTotal += graph.adj[resposta[i]][resposta[i + 1]];
+			// 	caminho+= to_string(resposta[i] + 1) + " ";
+			// }
+
+			// cout << caminhoTotal << endl << caminho << endl << endl;
+			file << graph.timeT << endl;
+
+		}
+        file.close();
+
+	}
+}
+
+int dynamic() {
+	
+	for(int n = 4; n < 15; n++) {
+		file.open("dynamic/N"+to_string(n)+".txt");
+		for(int j = 0; j < 15; j++){
+			Graph graph = construirGrafo(n);
+			vector<int> resposta;
+			double caminhoTotal = 0;
+
+			resposta = graph.dynamic();
+			//string caminho = "";
+
+			// for (int i = 0; i < resposta.size(); i++) {
+				
+			// 	caminhoTotal += graph.adj[resposta[i]][resposta[i + 1]];
+			// 	caminho+= to_string(resposta[i] + 1) + " ";
+			// }
+
+			// cout << caminhoTotal << endl << caminho << endl << endl;
+			file << graph.timeT << endl;
+
+		}
+        file.close();
+
+	}
+}
+
+int main() {
+	
+	brute_force();
+    branch_bound();
+    dynamic();
+
 }

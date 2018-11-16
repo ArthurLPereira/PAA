@@ -29,7 +29,7 @@ Graph construirGrafo(int n) {
 
 		x = distr(eng);
 		y = distr(eng);
-        file << x << " " << y << endl;
+        // file << x << " " << y << endl;
 		graph.addCoor(i, x, y);
 	}
 

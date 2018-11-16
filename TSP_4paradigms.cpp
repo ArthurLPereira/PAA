@@ -11,11 +11,13 @@ double distanciaEuclidiana(int x, int y, int a, int b) {
 	return sqrt(pow(x - a, 2) + pow(y - b, 2));
 
 }//fim distancia euclidiana
+/*
 4
 100 100
 900 100
 900 900
 100 900
+*/
 Graph construirGrafo() {
 
 	int n; //qtd cidades
