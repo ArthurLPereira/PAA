@@ -146,9 +146,6 @@ Graph::~Graph() {
 }
 
 
-int Graph::getSize() {
-
-
 int Graph::getSize(){
 	return n;
 }
@@ -164,6 +161,7 @@ void Graph::addEdge(int x, int y, double wt) {
 	adj[x][y] = adj[y][x] = wt;
 }
 
+
 bool Graph::isConnected(int x, int y){
 	bool res = false;
 
@@ -171,6 +169,10 @@ bool Graph::isConnected(int x, int y){
 		res = true;
 	}
 	return res;
+}
+
+double Graph::getPeso(int v1, int v2) {
+	return adj[v1][v2];
 }
 
 /*
@@ -793,7 +795,7 @@ void algoritmoGenetico::gerarMenorCusto()
 			{
 				crossOver(populacao[0].first, populacao[0].first);
 
-				if (tamanhoPopulacao > tamanhoPopulacao)
+				if (tamanhoRealPopulacao > tamanhoPopulacao)
 				{
 					populacao.pop_back();
 					tamanhoRealPopulacao--;
@@ -804,14 +806,14 @@ void algoritmoGenetico::gerarMenorCusto()
 
 	// imprimirPopulacao();
 
-	// cout << "Custo: " << populacao[0].second<<endl;
-	// cout << "Caminho: ";
-	// const vector<double>& b = populacao[0].first;
-	// for(int i = 0; i < grafo->n; i++){
-	// 	cout << b[i]+1 << " ";
-	// }
-	// //cout << verticeInicial+1<<endl;
-	// cout<<endl;
+	cout << "Custo: " << populacao[0].second<<endl;
+	cout << "Caminho: ";
+	const vector<double>& b = populacao[0].first;
+	for(int i = 0; i < grafo->n; i++){
+		cout << b[i]+1 << " ";
+	}
+	//cout << verticeInicial+1<<endl;
+	cout<<endl;
 }
 
 /*

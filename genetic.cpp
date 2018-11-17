@@ -44,7 +44,7 @@ Graph construirGrafo(int n){
     int x, y; //coordenadas x e y
     double aux;  //variavel aux
 
-    Graph grafo(n);
+    Graph graph(n);
 
     for (int i = 0; i < n; i++){
        // x = distr(eng);
@@ -61,14 +61,14 @@ Graph construirGrafo(int n){
             if (i != j){
                 //distancia euclidiana do grafo,
                 //nas coordenadas (i,0), (i,1), (j,0) e (j,1).
-                aux = distanciaEuclidiana(grafo.coor[i][0], grafo.coor[i][1], grafo.coor[j][0], grafo.coor[j][1]);
+                aux = distanciaEuclidiana(graph.coor[i][0], graph.coor[i][1], graph.coor[j][0], graph.coor[j][1]);
 
                 // adiciona aresta no grafo, na posica i, j com o valor de aux.
-                grafo.addEdge(i, j, aux);
+                graph.addEdge(i, j, aux);
             }
         }
     }
-    return grafo;
+    return graph;
 }
 
 /* metodo main aonde é feito chamada do metodo genetico.
@@ -77,12 +77,13 @@ calcula tambem o caminho total percorrido.
 */
 int main(){
    //cria arquivo com o output do genetico.
+   ofstream file;
    file.open("genetic.txt");
    int n;
    cin >> n;
 
-   for (int j = 0; j < 15; j++){
-        Graph grafo = construirGrafo(n); //criando o grafo.
+   //for (int j = 0; j < 15; j++){
+        Graph graph = construirGrafo(n); //criando o grafo.
         vector<int> resposta;    //vetor que vai armazenar a ordem percorrida.
         double caminhoTotal = 0; //contem caminho total percorrido.
 
@@ -100,12 +101,9 @@ int main(){
         }
         file << caminhoTotal << endl; //print da distancia total percorrida
         file << caminho << endl << endl;      //printa o caminho percorrido. */
-
-        caminhoTotal = ag.menorCusto();
-
-        file << caminhoTotal << endl << caminho << endl << endl; //print da distancia total percorrida e do menor caminho
+ //print da distancia total percorrida e do menor caminho
 
         //cout << "Tempo BF: " << graph.timeT << endl;
-    }
+    //}
     file.close(); //fecha arq
 }
