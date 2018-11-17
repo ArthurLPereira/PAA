@@ -24,7 +24,7 @@ private:
 
 public:
 
-	time_t timeT;
+	clock_t timeT;
 	double **adj;	// matriz de adjacência/distancia. Se o valor for -1, os vértices não estão conectados
 	double **coor;  // coordenadas das cidades
 	Graph();  // construtor nao utilizado
@@ -134,7 +134,12 @@ Graph::Graph() {
 
 // Destructor not utilized
 Graph::~Graph() {
-
+	for(int i = 0; i < this->n; i++){
+		delete [] adj[i];
+		delete [] coor[i];
+	}
+	delete [] adj;
+	delete [] coor;
 }
 
 
@@ -180,7 +185,7 @@ Determina o menor caminho Hamiltoniano do grafo utilizando o paradigma de forea 
 */
 vector<int> Graph::bruteForce() {
 
-	time_t inicio, fim;
+	clock_t inicio, fim;
 	vector<int> cidades;
 	vector<int> resposta;
 	cidades.push_back(0);
@@ -241,7 +246,7 @@ vector<int> Graph::bruteForceR(int a, double res, double bestR, vector<int>cidad
  */
 vector<int> Graph::branchBound() {
 
-	time_t inicio, fim;
+	clock_t inicio, fim;
 	vector<int> cidades;
 	vector<int> resposta;
 	cidades.push_back(0);
@@ -296,7 +301,7 @@ vector<int> Graph::branchBoundR(int a, double res, double bestR, vector<int>cida
 
 vector<int> Graph::dynamic() {
 	vector<int> resposta;
-	time_t inicio, fim;
+	clock_t inicio, fim;
 	inicio = clock();
 	resposta = dynamicR();
 	fim = clock();
