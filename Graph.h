@@ -6,6 +6,7 @@
 #include <map>
 #include <set>
 #include <stdlib.h>
+#include <algorithm>
 #define INFINITE 999999/0.001
 
 using namespace std;
@@ -17,6 +18,7 @@ private:
 	int n;	// Number of vertices
 	vector<int> bruteForceR(int a, double res, double bestR,  vector<int>cidades, vector<int> bestC); //determina o menor caminho Hamiltoniano do grafo utilizando o paradigma de for�a bruta
 	vector<int> branchBoundR(int a, double res, double bestR, vector<int>cidades, vector<int> bestC); //determina o menor caminho Hamiltoniano do grafo utilizando o paradigma de branch and bound 
+	vector<int> dynamicR(); //determina o menor caminho Hamiltoniano do grado utilizando programação dinamica
 	bool isIn(int x, vector<int> v); //retorna se um elemento esta ou nao no vetor de inteiros
 	double best; //
 
@@ -293,6 +295,17 @@ vector<int> Graph::branchBoundR(int a, double res, double bestR, vector<int>cida
 }
 
 vector<int> Graph::dynamic() {
+	vector<int> resposta;
+	time_t inicio, fim;
+	inicio = clock();
+	resposta = dynamicR();
+	fim = clock();
+	timeT = fim - inicio;
+
+	return resposta;
+}
+
+vector<int> Graph::dynamicR() {
 	long nsub = 1 << n;
 	vector<vector<float>> opt(nsub, vector<float>(n));
 
@@ -471,42 +484,42 @@ bool algoritmoGenetico::existeCromossomos(const vector<double>& a){
 *Metodo responsavel por gerar a populacao inicial
 */
 
-//    void algoritmoGenetico::iniciarPopulacao(){
-//       vector<double> pai;
-//       //Insere o vertice inicial no vetor pai
-//       pai.push_back(verticeInicial);
-//       //Cria o vetor pai
-//       for (int i = 0; i < grafo->n; i++){
-//          if(i != verticeInicial){
-//             pai.push_back(i);
-//          }
-//       }
+   void algoritmoGenetico::iniciarPopulacao(){
+      vector<double> pai;
+      //Insere o vertice inicial no vetor pai
+      pai.push_back(verticeInicial);
+      //Cria o vetor pai
+      for (int i = 0; i < grafo->n; i++){
+         if(i != verticeInicial){
+            pai.push_back(i);
+         }
+      }
 
-//       double custoTotal =  custoCaminho(pai);
-//       //Verifica se a rota contem ligacoes e uma rota valida, se for insere na populacao e incremeta o contador
-//       if(custoTotal != -1){
-//          populacao.push_back(make_pair(pai,custoTotal));
-//          tamanhoRealPopulacao++;
-//       }
+      double custoTotal =  custoCaminho(pai);
+      //Verifica se a rota contem ligacoes e uma rota valida, se for insere na populacao e incremeta o contador
+      if(custoTotal != -1){
+         populacao.push_back(make_pair(pai,custoTotal));
+         tamanhoRealPopulacao++;
+      }
 
-//       //Cria rotas aleatorias, posteriormente verifica se tem custo maior que zero
-//       //e um crossomo ja inserido e faz a insercao na populacao
-//       for (int i = 0; i < geracoes; i++){
-//          random_shuffle(pai.begin() + 1, pai.begin() + (rand() % (grafo->n - 1) + 1));
-//          double custoTotal = custoCaminho(pai);
-//          if(custoTotal != -1 && !existeCromossomos(pai)){
-//             populacao.push_back(make_pair(pai,custoTotal));
-//             tamanhoRealPopulacao++;
-//          }
-//          if(tamanhoPopulacao == tamanhoRealPopulacao)
-//             break;
-//       }
+      //Cria rotas aleatorias, posteriormente verifica se tem custo maior que zero
+      //e um crossomo ja inserido e faz a insercao na populacao
+      for (int i = 0; i < geracoes; i++){
+         std::random_shuffle(pai.begin() + 1, pai.begin() + (rand() % (grafo->n - 1) + 1));
+         double custoTotal = custoCaminho(pai);
+         if(custoTotal != -1 && !existeCromossomos(pai)){
+            populacao.push_back(make_pair(pai,custoTotal));
+            tamanhoRealPopulacao++;
+         }
+         if(tamanhoPopulacao == tamanhoRealPopulacao)
+            break;
+      }
 
-//       if(tamanhoRealPopulacao == 0)
-//          cout << "\nPopulacao inicial vazia"<<endl;
-//       else
-//          sort(populacao.begin(),populacao.end(),ordenarPredecessor());
-//    }
+      if(tamanhoRealPopulacao == 0)
+         cout << "\nPopulacao inicial vazia"<<endl;
+      else
+         std::sort(populacao.begin(),populacao.end(),ordenarPredecessor());
+   }
 
 /*
 *Metodo para imprimir a populacao(rota contendo os custos referente a elas)
@@ -729,14 +742,14 @@ void algoritmoGenetico::gerarMenorCusto(){
 
 	// imprimirPopulacao();
 
-	cout << "Custo: " << populacao[0].second<<endl;
-	cout << "Caminho: ";
-	const vector<double>& b = populacao[0].first;
-	for(int i = 0; i < grafo->n; i++){
-		cout << b[i]+1 << " ";
-	}
-	//cout << verticeInicial+1<<endl;
-	cout<<endl;
+	// cout << "Custo: " << populacao[0].second<<endl;
+	// cout << "Caminho: ";
+	// const vector<double>& b = populacao[0].first;
+	// for(int i = 0; i < grafo->n; i++){
+	// 	cout << b[i]+1 << " ";
+	// }
+	// //cout << verticeInicial+1<<endl;
+	// cout<<endl;
 }
 
 /*

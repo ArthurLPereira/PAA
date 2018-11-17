@@ -33,8 +33,10 @@ Graph construirGrafo(int n) {
 
 	for (int i = 0; i < n; i++) {
 
-		x = distr(eng);
-		y = distr(eng);
+		// x = distr(eng);
+		// y = distr(eng);
+		cin >> x;
+		cin >> y;
         // file << x << " " << y << endl;
 		graph.addCoor(i, x, y);
 	}
@@ -52,48 +54,48 @@ Graph construirGrafo(int n) {
 	return graph;
 }
 
-void algoritmoGenetico::iniciarPopulacao(){
-      vector<double> pai;
-      //Insere o vertice inicial no vetor pai
-      pai.push_back(verticeInicial);
-      //Cria o vetor pai
-      for (int i = 0; i < grafo->n; i++){
-         if(i != verticeInicial){
-            pai.push_back(i);
-         }
-      }
+// void algoritmoGenetico::iniciarPopulacao(){
+//       vector<double> pai;
+//       //Insere o vertice inicial no vetor pai
+//       pai.push_back(verticeInicial);
+//       //Cria o vetor pai
+//       for (int i = 0; i < grafo->n; i++){
+//          if(i != verticeInicial){
+//             pai.push_back(i);
+//          }
+//       }
 
-      double custoTotal =  custoCaminho(pai);
-      //Verifica se a rota contem ligacoes e uma rota valida, se for insere na populacao e incremeta o contador
-      if(custoTotal != -1){
-         populacao.push_back(make_pair(pai,custoTotal));
-         tamanhoRealPopulacao++;
-      }
+//       double custoTotal =  custoCaminho(pai);
+//       //Verifica se a rota contem ligacoes e uma rota valida, se for insere na populacao e incremeta o contador
+//       if(custoTotal != -1){
+//          populacao.push_back(make_pair(pai,custoTotal));
+//          tamanhoRealPopulacao++;
+//       }
 
-      //Cria rotas aleatorias, posteriormente verifica se tem custo maior que zero
-      //e um crossomo ja inserido e faz a insercao na populacao
-      for (int i = 0; i < geracoes; i++){
-         random_shuffle(pai.begin() + 1, pai.begin() + (rand() % (grafo->n - 1) + 1));
-         double custoTotal = custoCaminho(pai);
-         if(custoTotal != -1 && !existeCromossomos(pai)){
-            populacao.push_back(make_pair(pai,custoTotal));
-            tamanhoRealPopulacao++;
-         }
-         if(tamanhoPopulacao == tamanhoRealPopulacao)
-            break;
-      }
+//       //Cria rotas aleatorias, posteriormente verifica se tem custo maior que zero
+//       //e um crossomo ja inserido e faz a insercao na populacao
+//       for (int i = 0; i < geracoes; i++){
+//          random_shuffle(pai.begin() + 1, pai.begin() + (rand() % (grafo->n - 1) + 1));
+//          double custoTotal = custoCaminho(pai);
+//          if(custoTotal != -1 && !existeCromossomos(pai)){
+//             populacao.push_back(make_pair(pai,custoTotal));
+//             tamanhoRealPopulacao++;
+//          }
+//          if(tamanhoPopulacao == tamanhoRealPopulacao)
+//             break;
+//       }
 
-      if(tamanhoRealPopulacao == 0)
-         cout << "\nPopulacao inicial vazia"<<endl;
-      else
-         sort(populacao.begin(),populacao.end(),ordenarPredecessor());
-   }
+//       if(tamanhoRealPopulacao == 0)
+//          cout << "\nPopulacao inicial vazia"<<endl;
+//       else
+//          sort(populacao.begin(),populacao.end(),ordenarPredecessor());
+//    }
 
 
 
 
 int main() {
-	file.open("branchbound.txt");
+	file.open("genetic.txt");
 	int n;
 	cin >> n;
 
@@ -103,7 +105,7 @@ int main() {
 		vector<int> resposta;
 		double caminhoTotal = 0;
 
-        algoritmoGenetico ag(graph,40,100,20,0);
+        algoritmoGenetico ag(&graph,40,100,20,0);
 
 		ag.gerarMenorCusto();
 		string caminho = ""; // melhor caminho percorrido
