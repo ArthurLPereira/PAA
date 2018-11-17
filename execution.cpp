@@ -12,7 +12,7 @@
 #include <set>
 #include <stdlib.h>
 
-#define MAX_NODES 10
+#define MAX_NODES 15
 #define TEST_CASES 15
 
 using namespace std;
