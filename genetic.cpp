@@ -14,112 +14,98 @@
 
 using namespace std;
 
-ofstream file;
 
-double distanciaEuclidiana(int x, int y, int a, int b) {
-	return sqrt(pow(x - a, 2) + pow(y - b, 2));
+/*
+Calcula a distancia entre dois pontos
+@author		Ricardo Xavier Sena
+@author     Arthur Pereira
+
+@param	x	Coordenada x do ponto1
+@param	y	Coordenada y do ponto1
+@param	a	Coordenada x do ponto2
+@param	b	Coordenada y do ponto2
+
+@return		Distancia, entre os dois pontos
+*/
+double distanciaEuclidiana(int x, int y, int a, int b){
+    double resposta;
+
+    //distancia euclidiana
+    resposta = sqrt(pow(x - a, 2) + pow(y - b, 2));
+
+    return resposta;
 }
 
-Graph construirGrafo(int n) {
+Graph construirGrafo(int n){
+    random_device rd;
+    mt19937 eng(rd());
+    uniform_int_distribution<> distr(0, 9999);
 
-	random_device rd;
-	mt19937 eng(rd());
-	uniform_int_distribution<> distr(0, 9999);
+    int x, y; //coordenadas x e y
+    double aux;  //variavel aux
 
-	double x, y; //coordenadas
-	double aux; //variavel auxiliar 
+    Graph grafo(n);
 
-	Graph graph(n);
-
-	for (int i = 0; i < n; i++) {
-
-		// x = distr(eng);
-		// y = distr(eng);
-		cin >> x;
-		cin >> y;
-        // file << x << " " << y << endl;
-		graph.addCoor(i, x, y);
-	}
-
-	for (int i = 0; i < n; i++) {
-		for (int j = 0; j < n; j++) {
-			if (i != j) {
-
-				aux = distanciaEuclidiana(graph.coor[i][0], graph.coor[i][1], graph.coor[j][0], graph.coor[j][1]);
-				graph.addEdge(i, j, aux);
-			}
-		}
+    for (int i = 0; i < n; i++){
+       // x = distr(eng);
+       // y = distr(eng);
+       cin >> x;
+       cin >> y;
+       // file << x << " " << y << endl;
+       graph.addCoor(i, x, y);
     }
 
-	return graph;
+    //calcula distancia entre os verticies, partindo das coordenadas.
+    for (int i = 0; i < n; i++){
+        for (int j = 0; j < n; j++){
+            if (i != j){
+                //distancia euclidiana do grafo,
+                //nas coordenadas (i,0), (i,1), (j,0) e (j,1).
+                aux = distanciaEuclidiana(grafo.coor[i][0], grafo.coor[i][1], grafo.coor[j][0], grafo.coor[j][1]);
+
+                // adiciona aresta no grafo, na posica i, j com o valor de aux.
+                grafo.addEdge(i, j, aux);
+            }
+        }
+    }
+    return grafo;
 }
 
-// void algoritmoGenetico::iniciarPopulacao(){
-//       vector<double> pai;
-//       //Insere o vertice inicial no vetor pai
-//       pai.push_back(verticeInicial);
-//       //Cria o vetor pai
-//       for (int i = 0; i < grafo->n; i++){
-//          if(i != verticeInicial){
-//             pai.push_back(i);
-//          }
-//       }
+/* metodo main aonde é feito chamada do metodo genetico.
+calcula tambem o caminho total percorrido.
 
-//       double custoTotal =  custoCaminho(pai);
-//       //Verifica se a rota contem ligacoes e uma rota valida, se for insere na populacao e incremeta o contador
-//       if(custoTotal != -1){
-//          populacao.push_back(make_pair(pai,custoTotal));
-//          tamanhoRealPopulacao++;
-//       }
+*/
+int main(){
+   //cria arquivo com o output do genetico.
+   file.open("genetic.txt");
+   int n;
+   cin >> n;
 
-//       //Cria rotas aleatorias, posteriormente verifica se tem custo maior que zero
-//       //e um crossomo ja inserido e faz a insercao na populacao
-//       for (int i = 0; i < geracoes; i++){
-//          random_shuffle(pai.begin() + 1, pai.begin() + (rand() % (grafo->n - 1) + 1));
-//          double custoTotal = custoCaminho(pai);
-//          if(custoTotal != -1 && !existeCromossomos(pai)){
-//             populacao.push_back(make_pair(pai,custoTotal));
-//             tamanhoRealPopulacao++;
-//          }
-//          if(tamanhoPopulacao == tamanhoRealPopulacao)
-//             break;
-//       }
+   for (int j = 0; j < 15; j++){
+        Graph grafo = construirGrafo(n); //criando o grafo.
+        vector<int> resposta;    //vetor que vai armazenar a ordem percorrida.
+        double caminhoTotal = 0; //contem caminho total percorrido.
 
-//       if(tamanhoRealPopulacao == 0)
-//          cout << "\nPopulacao inicial vazia"<<endl;
-//       else
-//          sort(populacao.begin(),populacao.end(),ordenarPredecessor());
-//    }
+        algoritmoGenetico ag(&graph, 40, 100, 20, 0);
 
+        ag.gerarMenorCusto();
+        string caminho = ""; //melhor caminho percorrido
 
+         /*
+        //for para cacular distancia total percorrida,
+        //fazer a impressao na tela da ordem dos vertices percorridos.
+        for (int i = 0; i < resposta.size(); i++){
+            caminhoTotal += grafo.adj[resposta[i]][resposta[i + 1]]; //faz a soma da distancia do i-vertcie visitado e o seguinte.
+            caminho += to_string(resposta[i] + 1) + " ";
+        }
+        file << caminhoTotal << endl; //print da distancia total percorrida
+        file << caminho << endl << endl;      //printa o caminho percorrido. */
 
-
-int main() {
-	file.open("genetic.txt");
-	int n;
-	cin >> n;
-
-	for(int j = 0; j < 15; j++) {
-
-		Graph graph = construirGrafo(n);
-		vector<int> resposta;
-		double caminhoTotal = 0;
-
-        algoritmoGenetico ag(&graph,40,100,20,0);
-
-		ag.gerarMenorCusto();
-		string caminho = ""; // melhor caminho percorrido
-
-		// for (int i = 0; i < resposta.size(); i++) {
-			
-		// 	caminhoTotal += graph.adj[resposta[i]][resposta[i + 1]];
-		// 	caminho+= to_string(resposta[i] + 1) + " ";
-		// }
         caminhoTotal = ag.menorCusto();
 
-		file << caminhoTotal << endl << caminho << endl << endl;
+        file << caminhoTotal << endl << caminho << endl << endl; //print da distancia total percorrida e do menor caminho
 
-		//cout << "Tempo BF: " << graph.timeT << endl;
-	}
-	file.close();
+        //cout << "Tempo BF: " << graph.timeT << endl;
+    }
+    file.close(); //fecha arq
 }

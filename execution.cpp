@@ -20,12 +20,14 @@ using namespace std;
 ifstream input;	
 ofstream output;
 
+//calculo da distancia euclidiana
 double distanciaEuclidiana(int x, int y, int a, int b) {
 
 	return sqrt(pow(x - a, 2) + pow(y - b, 2));
 
 }
 
+//gera amostra de casos de teste
 void gerar_amostra(){
 	random_device rd;
 	mt19937 eng(rd());
@@ -45,36 +47,28 @@ void gerar_amostra(){
 	output.close();
 }
 
-Graph construirGrafo(int n) {
-
+Graph construirGrafo(int n){
 	double x, y; //coordenadas
-	double aux;  //variavel auxiliar 
+	double aux;  //variavel auxiliar
 
 	Graph graph(n);
 
-	for (int i = 0; i < n; i++) {
-
+	for (int i = 0; i < n; i++){
 		input >> x;
 		input >> y;
-        // output << x << " " << y << endl;
+		// output << x << " " << y << endl;
 		graph.addCoor(i, x, y);
 	}
-
-	for (int i = 0; i < n; i++) {
-		for (int j = 0; j < n; j++) {
-			if (i != j) {
-
+	for (int i = 0; i < n; i++){
+		for (int j = 0; j < n; j++){
+			if (i != j){
 				aux = distanciaEuclidiana(graph.coor[i][0], graph.coor[i][1], graph.coor[j][0], graph.coor[j][1]);
 				graph.addEdge(i, j, aux);
 			}
 		}
-    }
-
+	}
 	return graph;
-
-
 }
-
 
 int brute_force() {
 	input.open("input.txt");
@@ -105,9 +99,9 @@ int brute_force() {
 	input.close();
 }
 
-int branch_bound() {
+int branch_bound(){
 	input.open("input.txt");
-	for(int n = 4; n <= MAX_NODES; n++) {
+	for(int n = 4; n <= MAX_NODES; n++){
 		output.open("branchbound/N"+to_string(n)+".txt");
 		for(int j = 0; j < TEST_CASES; j++){
 			input >> n;
@@ -126,17 +120,15 @@ int branch_bound() {
 
 			// cout << caminhoTotal << endl << caminho << endl << endl;
 			output << graph.timeT << endl;
-
 		}
         output.close();
-
 	}
 	input.close();
 }
 
-int dynamic() {
+int dynamic(){
 	input.open("input.txt");
-	for(int n = 4; n <= MAX_NODES; n++) {
+	for(int n = 4; n <= MAX_NODES; n++){
 		output.open("dynamic/N"+to_string(n)+".txt");
 		for(int j = 0; j < TEST_CASES; j++){
 			input >> n;
@@ -155,26 +147,24 @@ int dynamic() {
 
 			// cout << caminhoTotal << endl << caminho << endl << endl;
 			output << graph.timeT << endl;
-
 		}
         output.close();
-
 	}
 	input.close();
 }
 
-int genetic() {
+int genetic(){
 	input.open("input.txt");
 	for (int n = 4; n <= MAX_NODES; n++){
-		output.open("genetic/N"+to_string(n)+".txt");
+		output.open("genetic/N" + to_string(n) + ".txt");
 
-		for(int j = 0; j < TEST_CASES; j++) {
+		for (int j = 0; j < TEST_CASES; j++){
 			input >> n;
 			Graph graph = construirGrafo(n);
 			vector<int> resposta;
 			double caminhoTotal = 0;
 
-			algoritmoGenetico ag(&graph,40,100,20,0);
+			algoritmoGenetico ag(&graph, 40, 100, 20, 0);
 
 			time_t inicio, fim;
 			inicio = clock();
@@ -184,13 +174,12 @@ int genetic() {
 			// melhor caminho percorrido
 
 			// for (int i = 0; i < resposta.size(); i++) {
-				
+
 			// 	caminhoTotal += graph.adj[resposta[i]][resposta[i + 1]];
 			// 	caminho+= to_string(resposta[i] + 1) + " ";
 			// }
 
 			output << timeT << endl;
-		
 			//cout << "Tempo BF: " << graph.timeT << endl;
 		}
 		output.close();
@@ -198,10 +187,12 @@ int genetic() {
 	input.close();
 }
 
+//execucao de todos metodos para resolver o tsp
 int main() {
+
 	gerar_amostra();
 	brute_force();
-    branch_bound();
-    dynamic();
+	branch_bound();
+	dynamic();
 	genetic();
 }
