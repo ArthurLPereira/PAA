@@ -6,19 +6,24 @@
 #include <random>
 #include <fstream>
 #include <ctime>
+#include <time.h>
 #include <list>
 #include <utility>
 #include <map>
 #include <set>
 #include <stdlib.h>
 
-#define MAX_NODES 15
+#define MAX_NODES 12
 #define TEST_CASES 15
 
 using namespace std;
 
 ifstream input;	
 ofstream output;
+
+double getTime(clock_t x) {
+	return ((double)x)/CLOCKS_PER_SEC;
+}
 
 //calculo da distancia euclidiana
 double distanciaEuclidiana(int x, int y, int a, int b) {
@@ -90,7 +95,7 @@ int brute_force() {
 			// }
 
 			// cout << caminhoTotal << endl << caminho << endl << endl;
-			output << graph.timeT << endl;
+			output << getTime(graph.timeT) << endl;
 
 		}
         output.close();
@@ -119,7 +124,8 @@ int branch_bound(){
 			// }
 
 			// cout << caminhoTotal << endl << caminho << endl << endl;
-			output << graph.timeT << endl;
+			output << getTime(graph.timeT) << endl;
+
 		}
         output.close();
 	}
@@ -146,7 +152,7 @@ int dynamic(){
 			// }
 
 			// cout << caminhoTotal << endl << caminho << endl << endl;
-			output << graph.timeT << endl;
+			output << getTime(graph.timeT) << endl;
 		}
         output.close();
 	}
@@ -166,11 +172,11 @@ int genetic(){
 
 			algoritmoGenetico ag(&graph, 40, 100, 20, 0);
 
-			time_t inicio, fim;
+			clock_t inicio, fim;
 			inicio = clock();
 			ag.gerarMenorCusto();
 			fim = clock();
-			time_t timeT = fim - inicio;
+			clock_t timeT = fim - inicio;
 			// melhor caminho percorrido
 
 			// for (int i = 0; i < resposta.size(); i++) {
@@ -179,8 +185,9 @@ int genetic(){
 			// 	caminho+= to_string(resposta[i] + 1) + " ";
 			// }
 
-			output << timeT << endl;
-			//cout << "Tempo BF: " << graph.timeT << endl;
+
+			output << getTime(timeT) << endl;
+			//cout << "Tempo BF: " << getTime(graph.timeT) << endl;
 		}
 		output.close();
 	}

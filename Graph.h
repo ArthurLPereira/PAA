@@ -136,7 +136,17 @@ Graph::Graph(){
 /*
 Destrutor
 */
-Graph::~Graph(){}
+Graph::~Graph() {
+	for(int i = 0; i < this->n; i++){
+		delete [] adj[i];
+		delete [] coor[i];
+	}
+	delete [] adj;
+	delete [] coor;
+}
+
+
+int Graph::getSize() {
 
 
 int Graph::getSize(){
@@ -173,9 +183,11 @@ algoritimo de força bruta que determina menor caminho
 vector<int> Graph::bruteForce(){
 
 	clock_t inicio, fim;
+
 	vector<int> cidades; //vetor com as cidades
 	vector<int> resposta; //vetor com a ordem das cidades da reposta
 	cidades.push_back(0); 
+  
 	this->best = INFINITE;
 
 	inicio = clock(); //começa contagem do tempo
