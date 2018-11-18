@@ -47,10 +47,10 @@ Graph construirGrafo(int n){
     Graph graph(n);
 
     for (int i = 0; i < n; i++){
-       // x = distr(eng);
-       // y = distr(eng);
-       cin >> x;
-       cin >> y;
+       x = distr(eng);
+       y = distr(eng);
+    //    cin >> x;
+    //    cin >> y;
        // file << x << " " << y << endl;
        graph.addCoor(i, x, y);
     }
@@ -78,11 +78,11 @@ calcula tambem o caminho total percorrido.
 int main(){
    //cria arquivo com o output do genetico.
    ofstream file;
-   file.open("genetic.txt");
+   //file.open("genetic.txt");
    int n;
    cin >> n;
 
-   //for (int j = 0; j < 15; j++){
+   for (int j = 0; j < 15; j++){
         Graph graph = construirGrafo(n); //criando o grafo.
         vector<int> resposta;    //vetor que vai armazenar a ordem percorrida.
         double caminhoTotal = 0; //contem caminho total percorrido.
@@ -104,6 +104,6 @@ int main(){
  //print da distancia total percorrida e do menor caminho
 
         //cout << "Tempo BF: " << graph.timeT << endl;
-    //}
-    file.close(); //fecha arq
+    }
+    //file.close(); //fecha arq
 }
