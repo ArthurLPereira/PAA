@@ -77,8 +77,10 @@ Graph construirGrafo(int n){
 
 int brute_force() {
 	input.open("input.txt");
+	cout << "Forca Bruta:"<< endl << endl;
 	for(int n = 4; n <= MAX_NODES; n++) {
 		output.open("bruteforce/N"+to_string(n)+".txt");
+		cout << n << endl;
 		for(int j = 0; j < TEST_CASES; j++){
 			input >> n;
 			Graph graph = construirGrafo(n);
@@ -86,15 +88,15 @@ int brute_force() {
 			double caminhoTotal = 0;
 
 			resposta = graph.bruteForce();
-			//string caminho = "";
+			string caminho = "";
 
-			// for (int i = 0; i < resposta.size(); i++) {
+			for (int i = 0; i < resposta.size(); i++) {
 				
-			// 	caminhoTotal += graph.adj[resposta[i]][resposta[i + 1]];
-			// 	caminho+= to_string(resposta[i] + 1) + " ";
-			// }
+				caminhoTotal += graph.adj[resposta[i]][resposta[i + 1]];
+				caminho+= to_string(resposta[i] + 1) + " ";
+			}
 
-			// cout << caminhoTotal << endl << caminho << endl << endl;
+			cout << "Custo: " << caminhoTotal << endl <<"Caminho " << caminho << endl << endl;
 			output << getTime(graph.timeT) << endl;
 
 		}
@@ -102,11 +104,14 @@ int brute_force() {
 
 	}
 	input.close();
+	cout << "################################################" << endl;
 }
 
 int branch_bound(){
 	input.open("input.txt");
+	cout << "Branch & Bound:"<< endl<< endl;
 	for(int n = 4; n <= MAX_NODES; n++){
+		cout << n << endl;
 		output.open("branchbound/N"+to_string(n)+".txt");
 		for(int j = 0; j < TEST_CASES; j++){
 			input >> n;
@@ -115,26 +120,29 @@ int branch_bound(){
 			double caminhoTotal = 0;
 
 			resposta = graph.branchBound();
-			//string caminho = "";
+			string caminho = "";
 
-			// for (int i = 0; i < resposta.size(); i++) {
+			for (int i = 0; i < resposta.size(); i++) {
 				
-			// 	caminhoTotal += graph.adj[resposta[i]][resposta[i + 1]];
-			// 	caminho+= to_string(resposta[i] + 1) + " ";
-			// }
+				caminhoTotal += graph.adj[resposta[i]][resposta[i + 1]];
+				caminho+= to_string(resposta[i] + 1) + " ";
+			}
 
-			// cout << caminhoTotal << endl << caminho << endl << endl;
+			cout << "Custo: " << caminhoTotal << endl <<"Caminho " << caminho << endl << endl;
 			output << getTime(graph.timeT) << endl;
 
 		}
         output.close();
 	}
 	input.close();
+	cout << "################################################" << endl;
 }
 
 int dynamic(){
 	input.open("input.txt");
+	cout << "Dinâmico:"<< endl<< endl;
 	for(int n = 4; n <= MAX_NODES; n++){
+		cout << n << endl;
 		output.open("dynamic/N"+to_string(n)+".txt");
 		for(int j = 0; j < TEST_CASES; j++){
 			input >> n;
@@ -143,27 +151,29 @@ int dynamic(){
 			double caminhoTotal = 0;
 
 			resposta = graph.dynamic();
-			//string caminho = "";
+			string caminho = "";
 
-			// for (int i = 0; i < resposta.size(); i++) {
+			for (int i = 0; i < resposta.size(); i++) {
 				
-			// 	caminhoTotal += graph.adj[resposta[i]][resposta[i + 1]];
-			// 	caminho+= to_string(resposta[i] + 1) + " ";
-			// }
+				caminhoTotal += graph.adj[resposta[i]][resposta[i + 1]];
+				caminho+= to_string(resposta[i] + 1) + " ";
+			}
 
-			// cout << caminhoTotal << endl << caminho << endl << endl;
+			cout << "Custo: " << caminhoTotal << endl <<"Caminho " << caminho << endl << endl;
 			output << getTime(graph.timeT) << endl;
 		}
         output.close();
 	}
 	input.close();
+	cout << "################################################" << endl;
 }
 
 int genetic(){
 	input.open("input.txt");
+	cout << "Genético:"<< endl<< endl;
 	for (int n = 4; n <= MAX_NODES; n++){
+		cout << n << endl;
 		output.open("genetic/N" + to_string(n) + ".txt");
-
 		for (int j = 0; j < TEST_CASES; j++){
 			input >> n;
 			Graph graph = construirGrafo(n);
@@ -192,6 +202,7 @@ int genetic(){
 		output.close();
 	}
 	input.close();
+	cout << "################################################" << endl;
 }
 
 //execucao de todos metodos para resolver o tsp
@@ -202,4 +213,5 @@ int main() {
 	branch_bound();
 	dynamic();
 	genetic();
+
 }

@@ -62,6 +62,15 @@ struct ordenarPredecessor{
 	}
 };
 
+
+
+/************************************************
+ * @author Matheus Kraisfeld
+ * @author Arthur Pereira
+ * @author Ricardo Sena
+ * Classe de algoritmo genético para o Problema do Caixeiro Viajante.
+ ************************************************
+ */
 class algoritmoGenetico{
   private:
 	Graph *grafo;
@@ -358,7 +367,7 @@ vector<int> Graph::dynamicR(){
 		selected[best_k] = true;
 		s -= 1 << best_k;
 	}
-	tour.push_back(0);
+	// tour.push_back(0);
 
 	return tour;
 }
